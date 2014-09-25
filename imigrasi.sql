@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 14, 2014 at 09:43 AM
+-- Generation Time: Sep 25, 2014 at 09:51 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -55,15 +55,17 @@ CREATE TABLE IF NOT EXISTS `imigran` (
   `kelamin` enum('L','P') NOT NULL,
   `id_negara` int(11) NOT NULL,
   `id_sponsor` int(11) NOT NULL,
-  `alamat` tinytext NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `alamat` tinytext NOT NULL,
+  `location` tinytext NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `imigran`
 --
 
-INSERT INTO `imigran` (`id`, `no_paspor`, `nm_imigran`, `tmpt_lahir`, `tgl_lahir`, `kelamin`, `id_negara`, `id_sponsor`, `alamat`) VALUES
-(1, '0987654321', 'Raina Unzhurna', 'Newyork', '1986-09-10', 'L', 223, 1, 'Jl. Meranti X Blok L No. 27 Cirebon');
+INSERT INTO `imigran` (`id`, `no_paspor`, `nm_imigran`, `tmpt_lahir`, `tgl_lahir`, `kelamin`, `id_negara`, `id_sponsor`, `alamat`, `location`) VALUES
+(1, '0987654321', 'Raina Unzhurna', 'Newyork', '1986-09-10', 'L', 223, 1, 'Jl. Meranti X Blok L No. 27 Cirebon', ''),
+(2, '86987987987', 'Asep Maulana', 'aasa', '2014-09-02', 'L', 6, 1, 'asasasa', '-6.732633, 108.497958');
 
 -- --------------------------------------------------------
 
@@ -429,7 +431,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `imigran`
 --
 ALTER TABLE `imigran`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `negara`
 --

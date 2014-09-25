@@ -32,8 +32,10 @@ class Imigran extends CI_Controller {
 
 		$config['center'] = '-6.737246, 108.550656';
 		$config['places'] = TRUE;
-		$config['zoom'] = 'auto';
-		$this->googlemaps->initialize($config);
+		$config['zoom'] = '13';
+		$config['onclick'] = 'document.getElementById("location").value=event.latLng.lat().toFixed(6) + \', \' + event.latLng.lng().toFixed(6);gmapmarker.setPosition(event.latLng);'; 
+		$config['ondblclick'] = 'createMarker_map({ map: map, position:event.latLng });';
+		$this->googlemaps->initialize($config);		
 	
 		if($id)
 		{
@@ -43,10 +45,16 @@ class Imigran extends CI_Controller {
 			$this->breadcrumbs->push('Edit Data', '#');
 			
 			$item = (array) $this->imigran_model->get_imigran($id);
+			
+			$config['center'] = $item['location'];
+			$config['places'] = TRUE;
+			$config['zoom'] = '13';
+			$config['onclick'] = 'document.getElementById("location").value=event.latLng.lat().toFixed(6) + \', \' + event.latLng.lng().toFixed(6);gmapmarker.setPosition(event.latLng);'; 
+			$config['ondblclick'] = 'createMarker_map({ map: map, position:event.latLng });';
+			$this->googlemaps->initialize($config);
+			
 			$marker = array();
-			$marker['position'] = $item['alamat'];
-			$marker['draggable'] = FALSE;
-			$marker['animation'] = 'DROP';
+			$marker['position'] = $item['location'];
 			$this->googlemaps->add_marker($marker);
 		}
 		else
@@ -65,8 +73,19 @@ class Imigran extends CI_Controller {
 				'tgl_lahir'=>'',
 				'id_negara'=>'',
 				'id_sponsor'=>'',
-				'alamat'=>''
-			);	
+				'alamat'=>'',
+			);
+			
+			$config['center'] = '-6.737246, 108.550656';
+			$config['places'] = TRUE;
+			$config['zoom'] = '13';
+			$config['onclick'] = 'document.getElementById("location").value=event.latLng.lat().toFixed(6) + \', \' + event.latLng.lng().toFixed(6);gmapmarker.setPosition(event.latLng);'; 
+			$config['ondblclick'] = 'createMarker_map({ map: map, position:event.latLng });';
+			$this->googlemaps->initialize($config);
+			
+			$marker = array();
+			$marker['position'] = '-6.737246, 108.550656';
+			$this->googlemaps->add_marker($marker);
 		}
 		$item['opt_negara'] = $this->imigran_model->opt_negara();
 		$item['opt_sponsor'] = $this->imigran_model->opt_sponsor();
@@ -98,6 +117,7 @@ class Imigran extends CI_Controller {
 			$save['id_negara'] = $this->input->post('id_negara');
 			$save['id_sponsor'] = $this->input->post('id_sponsor');
 			$save['alamat'] = $this->input->post('alamat');
+			$save['location'] = $this->input->post('location');
 			
 			$this->imigran_model->save_imigran($save);
 			redirect('imigran');

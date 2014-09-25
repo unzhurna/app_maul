@@ -7,6 +7,12 @@ class Beranda_model extends CI_Model {
 		parent:: __construct();
 	}
 	
+	function get_imigran()
+	{
+		$query =  $this->db->get('imigran');
+		return $query->result();	
+	}
+	
 	function count_pasien()
 	{
 		$query =  $this->db->count_all_results('pasien');

@@ -19,7 +19,7 @@ class Auth extends CI_Controller {
 		}
 		else
 		{
-			redirect('imigran');
+			redirect('beranda');
 		}
 	}
 	
@@ -41,7 +41,7 @@ class Auth extends CI_Controller {
 			{
 				$this->session->set_userdata($result);
 				$this->session->set_flashdata('alert', '<div class="alert alert-info"><i class="elusive icon-ok-sign"></i> Selamat datang! anda telah login</div>');
-				redirect('imigran');
+				redirect('beranda');
 			}
 			else
 			{

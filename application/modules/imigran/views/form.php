@@ -86,6 +86,7 @@
 						?>
 					</div>
 				</div>
+				<?php echo form_hidden(array('name'=>'location', 'class'=>'form-control', 'id'=>'location', 'value'=>'')); ?>
 				<div class="form-group">
 					<div class="col-sm-offset-3 col-sm-9">
 						<button type="submit" class="btn btn-default">Submit</button>
