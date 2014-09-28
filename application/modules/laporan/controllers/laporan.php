@@ -27,6 +27,24 @@ class Laporan extends CI_Controller {
 		$this->load->view('template', $data);
 	}
 	
+	function printout(){
+		
+		$tipe = $this->input->post('tipe');
+		
+		switch ($tipe)
+		{
+			case 'all':
+				$item['source'] = $this->laporan_model->get_imigran_all();
+				break;
+			case 'kitas':
+				$item['source'] = $this->laporan_model->get_imigran_where();
+				break;
+			case 'kitap':
+				$item['source'] = $this->laporan_model->get_imigran_where();				
+				break;
+		}
+	}
+	
 	function printout()
 	{
 		$this->load->library('pdf');

@@ -14,6 +14,12 @@ class Kitas_model extends CI_Model {
 		return $query->row();
 	}
 	
+	function get_imigran($no_paspor)
+	{
+		$query = $this->db->get_where('imigran', array('no_paspor'=>$no_paspor));
+		return $query->result();
+	}
+	
 	function opt_imigran()
 	{
 		$result = $this->db->get('imigran')->result_array();
@@ -21,9 +27,44 @@ class Kitas_model extends CI_Model {
 		$data[''] = '-- Imigran --' ;
 		foreach($result as $opt)
 		{
-			$data[$opt['id']] = '['.$opt['no_paspor'].'] '.$opt['nm_imigran'];
+			$data[$opt['id']] = $opt['no_paspor'];
 		}
 		return $data;
+	}
+
+	function opt_negara()
+	{
+		$result = $this->db->get('negara')->result_array();
+		
+		$data[''] = '-- Kebangsaan --' ;
+		foreach($result as $opt)
+		{
+			$data[$opt['id']] = '['.$opt['kode_iso'].'] '.$opt['nm_negara'];
+		}
+		return $data;
+	}
+	
+	function opt_sponsor()
+	{
+		$result = $this->db->get('sponsor')->result_array();
+		
+		$data[''] = '-- Sponsor --' ;
+		foreach($result as $opt)
+		{
+			$data[$opt['id']] = $opt['nm_sponsor'];
+		}
+		return $data;
+	}
+		
+	function tampil_dosen_semua($nama)
+	{
+		$q = $this->db->query("select * from ci_login where nama_depan like '%$nama%'");
+		return $q;
+	}
+	function tampil_dosen_limit($nama)
+	{
+		$q = $this->db->query("select * from ci_login where nama_depan like '%$nama%' LIMIT 8");
+		return $q;
 	}
 	
 	function save_kitas($data)

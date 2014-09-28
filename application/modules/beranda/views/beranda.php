@@ -7,31 +7,31 @@
 		</a>
 	</div>
 	<div class="col-sm-2 col-xs-6">
-		<a class="data-block widget-block" href="<?php echo base_url('dokter');?>">
-			<span class="badge"><?php echo 'tet'; ?></span>
+		<a class="data-block widget-block" href="<?php echo base_url('sponsor');?>">
+			<span class="badge"><?php echo $this->db->count_all_results('sponsor'); ?></span>
+			<span class="widget-icon elusive icon-group-alt"></span>
+			<strong>Sponsor</strong>
+		</a>
+	</div>
+	<div class="col-sm-2 col-xs-6">
+		<a class="data-block widget-block" href="<?php echo base_url('imigran');?>">
+			<span class="badge"><?php echo $this->db->count_all_results('imigran'); ?></span>
 			<span class="widget-icon elusive icon-group-alt"></span>
 			<strong>Imigran</strong>
 		</a>
 	</div>
 	<div class="col-sm-2 col-xs-6">
-		<a class="data-block widget-block" href="<?php echo base_url('pasien');?>">
+		<a class="data-block widget-block" href="<?php echo base_url('kitan');?>">
 			<span class="badge"><?php echo 'tet'; ?></span>
 			<span class="widget-icon elusive icon-address-book-alt"></span>
 			<strong>KITAS</strong>
 		</a>
 	</div>
 	<div class="col-sm-2 col-xs-6">
-		<a class="data-block widget-block" href="<?php echo base_url('pasien');?>">
+		<a class="data-block widget-block" href="<?php echo base_url('kitap');?>">
 			<span class="badge"><?php echo 'tet'; ?></span>
 			<span class="widget-icon elusive icon-address-book-alt"></span>
 			<strong>KITAP</strong>
-		</a>
-	</div>
-	<div class="col-sm-2 col-xs-6">
-		<a class="data-block widget-block" href="<?php echo base_url('poliklinik');?>">
-			<span class="badge"><?php echo 'tet'; ?></span>
-			<span class="widget-icon elusive icon-home-alt"></span>
-			<strong>Poliklinik</strong>
 		</a>
 	</div>
 	<div class="col-sm-2 col-xs-6">
