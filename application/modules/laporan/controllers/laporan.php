@@ -34,30 +34,41 @@ class Laporan extends CI_Controller {
 		switch ($tipe)
 		{
 			case 'all':
+				$this->load->library('pdf');
+				$this->pdf->SetHeaderData('slide.jpg', 9, 'KANIM II CIREBON', 'Jl. Sultan Ageng Tirtayasa No. 51 Cirebon 45153
+');
+				$this->pdf->AddPage();
+				$this->pdf->SetFont("helvetica", "", 8);
+				
 				$item['source'] = $this->laporan_model->get_imigran_all();
+				$html = $this->load->view('report', $item, TRUE);	
+				$this->pdf->writeHTML($html, true, false, false, false, '');
+				$this->pdf->Output('output.pdf', 'I');
 				break;
 			case 'kitas':
-				$item['source'] = $this->laporan_model->get_imigran_where();
+				$this->load->library('pdf');
+				$this->pdf->SetHeaderData('slide.jpg', 9, 'KANIM II CIREBON', 'Jl. Sultan Ageng Tirtayasa No. 51 Cirebon 45153
+');
+				$this->pdf->AddPage();
+				$this->pdf->SetFont("helvetica", "", 8);
+				
+				$item['source'] = $this->laporan_model->get_imigran_kitas();
+				$html = $this->load->view('report2', $item, TRUE);	
+				$this->pdf->writeHTML($html, true, false, false, false, '');
+				$this->pdf->Output('output.pdf', 'I');
 				break;
 			case 'kitap':
-				$item['source'] = $this->laporan_model->get_imigran_where();				
+				$this->load->library('pdf');
+				$this->pdf->SetHeaderData('slide.jpg', 9, 'KANIM II CIREBON', 'Jl. Sultan Ageng Tirtayasa No. 51 Cirebon 45153
+');
+				$this->pdf->AddPage();
+				$this->pdf->SetFont("helvetica", "", 8);
+				
+				$item['source'] = $this->laporan_model->get_imigran_kitap();
+				$html = $this->load->view('report2', $item, TRUE);	
+				$this->pdf->writeHTML($html, true, false, false, false, '');
+				$this->pdf->Output('output.pdf', 'I');				
 				break;
 		}
 	}
-	
-	function printout()
-	{
-		$this->load->library('pdf');
-		$this->pdf->SetHeaderData('slide.jpg', 9, 'UNIT RAWAT JALAN RS BUDILUHUR', 'Jln. Raya Palasa Desa Cisambeng/ Kec Palasan, Kabupaten Majalengka');
-		$this->pdf->AddPage();
-		$this->pdf->SetFont("helvetica", "", 8);
-		
-		$tgl = explode(' - ', $this->input->post('tanggal'));
-		$item['periode'] = $this->input->post('tanggal');
-		$item['source'] = $this->laporan_model->get_data(format_ymd($tgl[1]), format_ymd($tgl[0]));
-		$html = $this->load->view('report', $item, TRUE);	
-		$this->pdf->writeHTML($html, true, false, false, false, '');
-		$this->pdf->Output('output.pdf', 'I');
-	}
-	
 }

@@ -2,9 +2,21 @@
 
 class Laporan_model extends CI_Model {
 	
-	function get_data($tgl2, $tgl1)
+	function get_imigran_all()
 	{
-		$query = $this->db->get_where('kunjungan_view', array('tanggal <='=>$tgl2, 'tanggal >='=>$tgl1));
+		$query = $this->db->get('imigran_view');
+		return $query->result();
+	}
+	
+	function get_imigran_kitas()
+	{
+		$query = $this->db->get('kitas_view');
+		return $query->result();
+	}
+	
+	function get_imigran_kitap()
+	{
+		$query = $this->db->get('kitap_view');
 		return $query->result();
 	}
 

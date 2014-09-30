@@ -18,7 +18,7 @@ class Kitap extends CI_Controller {
 	{
 		//Breadcrumbs
 		$this->breadcrumbs->push('<span class="elusive icon-home"></span>', base_url());
-		$this->breadcrumbs->push('Data kitap', '#');
+		$this->breadcrumbs->push('Data KITAP', '#');
 		
 		$item['source'] = $this->kitap_model->grid();
 		$data['content'] = $this->load->view('datagrid', $item, TRUE);
@@ -26,77 +26,56 @@ class Kitap extends CI_Controller {
 		$this->load->view('template', $data);
 	}
 	
-	function post_save()
+	function fill_form($term = FALSE)
+	{
+		$imigran = $this->kitap_model->get_imigran($term);
+		$item = array(
+			'id'=>$imigran['id'],
+			'nm_imigran'=>$imigran['nm_imigran'],
+			'kelamin'=>$imigran['kelamin'],
+			'tmpt_lahir'=>$imigran['tmpt_lahir'],
+			'tgl_lahir'=>format_dmy($imigran['tgl_lahir']),
+			'id_negara'=>$imigran['id_negara'],
+			'id_sponsor'=>$imigran['id_sponsor'],
+			'alamat'=>$imigran['alamat'],
+			'location'=>$imigran['location']
+		);
+		echo json_encode($item);
+	}
+	
+	function post()
 	{
 		$this->load->helper('form');
-		$this->load->library('form_validation');
-				
+		$this->load->library(array('form_validation'));
+			
 		//Breadcrumbs
 		$this->breadcrumbs->push('<span class="elusive icon-home"></span>', base_url());
-		$this->breadcrumbs->push('Data kitap', base_url().'kitap');
+		$this->breadcrumbs->push('Registrasi KITAP', base_url().'kitas');
 		$this->breadcrumbs->push('Tambah Data', '#');
 		
-		$item['no_reg'] = no_kis($this->db->count_all('kitap'));		
+		$item['no_reg'] = no_kis($this->db->count_all('ijin_tinggal'));
 		$item['opt_imigran'] = $this->kitap_model->opt_imigran();
-							
+		$item['opt_negara'] = $this->kitap_model->opt_negara();
+		$item['opt_sponsor'] = $this->kitap_model->opt_sponsor();
+									
 		$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
-		$this->form_validation->set_rules('id_imigran', 'imigran', 'required');
-		$this->form_validation->set_rules('masa_berlaku', 'masa berlaku', 'required');
-						
+		$this->form_validation->set_rules('id_imigran', 'no paspor', 'required');
+				
 		if($this->form_validation->run() == FALSE)
 		{
-			$data['content'] = $this->load->view('form_save', $item, TRUE);
+			$data['content'] = $this->load->view('form', $item, TRUE);
 			$data['script'] = $this->load->view('formComponent', '', TRUE);
 			$this->load->view('template', $data);	
 		}
 		else
 		{
 			$save['no_reg'] = $this->input->post('no_reg');
-			$save['id_imigran'] = $this->input->post('id_imigran');
-			$save['masa_berlaku'] = format_ymd($this->input->post('masa_berlaku'));
-						
+			$save['id_imigran'] = $this->input->post('id');
+			$save['tipe'] = 'kitap';
+			
 			$this->kitap_model->save_kitap($save);
 			redirect('kitap');
 		}
 	}
-	
-	function post_update($no_reg)
-	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-			
-		//Breadcrumbs
-		$this->breadcrumbs->push('<span class="elusive icon-home"></span>', base_url());
-		$this->breadcrumbs->push('Data kitap', base_url().'kitap');
-		$this->breadcrumbs->push('Edit Data', '#');
-		
-		$item = (array) $this->kitap_model->get_kitap($no_reg);
-		$item['opt_imigran'] = $this->kitap_model->opt_imigran();
-							
-		$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
-		$this->form_validation->set_rules('id_imigran', 'imigran', 'required');
-		$this->form_validation->set_rules('masa_berlaku', 'masa berlaku', 'required');
-						
-		if($this->form_validation->run() == FALSE)
-		{
-			$data['content'] = $this->load->view('form_update', $item, TRUE);
-			$data['script'] = $this->load->view('formComponent', '', TRUE);
-			$this->load->view('template', $data);	
-		}
-		else
-		{
-			$save['no_reg'] = $this->input->post('no_reg');
-			$save['id_imigran'] = $this->input->post('id_imigran');
-			$save['masa_berlaku'] = format_ymd($this->input->post('masa_berlaku'));
-						
-			$this->kitap_model->update_kitap($save);
-			redirect('kitap');
-		}
-	}
-	
-	function delete($id)
-	{
-		$this->kitap_model->delete_kitap($id);
-		redirect('kitap');	
-	}
+
 }

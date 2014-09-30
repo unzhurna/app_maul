@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 25, 2014 at 09:51 PM
+-- Generation Time: Sep 30, 2014 at 08:06 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -38,7 +38,30 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`id`, `nama`, `username`, `password`) VALUES
-(1, 'Administrator vv', 'admin', 'e10adc3949ba59abbe56e057f20f883e');
+(1, 'Administrator', 'admin', 'e10adc3949ba59abbe56e057f20f883e');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ijin_tinggal`
+--
+
+CREATE TABLE IF NOT EXISTS `ijin_tinggal` (
+  `no_reg` varchar(7) NOT NULL,
+  `id_imigran` int(11) NOT NULL,
+  `masa_berlaku` date DEFAULT NULL,
+  `tipe` enum('kitas','kitap') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ijin_tinggal`
+--
+
+INSERT INTO `ijin_tinggal` (`no_reg`, `id_imigran`, `masa_berlaku`, `tipe`) VALUES
+('KIS0000', 1, '0000-00-00', 'kitas'),
+('KIS0000', 1, '2014-09-04', 'kitas'),
+('KIS0000', 1, NULL, 'kitas'),
+('KIS0000', 1, NULL, 'kitap');
 
 -- --------------------------------------------------------
 
@@ -86,22 +109,30 @@ CREATE TABLE IF NOT EXISTS `imigran_view` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kitas`
+-- Stand-in structure for view `kitap_view`
 --
-
-CREATE TABLE IF NOT EXISTS `kitas` (
-  `no_reg` varchar(7) NOT NULL,
-  `id_imigran` int(11) NOT NULL,
-  `masa_berlaku` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `kitap_view` (
+`no_reg` varchar(7)
+,`no_paspor` varchar(30)
+,`imigran` varchar(50)
+,`nm_sponsor` varchar(50)
+,`id_imigran` int(11)
+,`tipe` enum('kitas','kitap')
+);
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `kitas`
+-- Stand-in structure for view `kitas_view`
 --
-
-INSERT INTO `kitas` (`no_reg`, `id_imigran`, `masa_berlaku`) VALUES
-('KIS0000', 1, '2014-09-03');
-
+CREATE TABLE IF NOT EXISTS `kitas_view` (
+`no_reg` varchar(7)
+,`no_paspor` varchar(30)
+,`imigran` varchar(50)
+,`nm_sponsor` varchar(50)
+,`masa_berlaku` date
+,`id_imigran` int(11)
+,`tipe` enum('kitas','kitap')
+);
 -- --------------------------------------------------------
 
 --
@@ -390,6 +421,24 @@ DROP TABLE IF EXISTS `imigran_view`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `imigran_view` AS select `imigran`.`id` AS `id`,`imigran`.`no_paspor` AS `no_paspor`,`imigran`.`nm_imigran` AS `nm_imigran`,`imigran`.`tmpt_lahir` AS `tmpt_lahir`,`imigran`.`tgl_lahir` AS `tgl_lahir`,`imigran`.`kelamin` AS `kelamin`,`negara`.`kode_iso` AS `kode_iso`,`sponsor`.`nm_sponsor` AS `sponsor`,`imigran`.`alamat` AS `alamat` from ((`imigran` left join `negara` on((`imigran`.`id_negara` = `negara`.`id`))) left join `sponsor` on((`imigran`.`id_sponsor` = `sponsor`.`id`)));
 
+-- --------------------------------------------------------
+
+--
+-- Structure for view `kitap_view`
+--
+DROP TABLE IF EXISTS `kitap_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `kitap_view` AS select `ijin_tinggal`.`no_reg` AS `no_reg`,`imigran`.`no_paspor` AS `no_paspor`,`imigran`.`nm_imigran` AS `imigran`,`sponsor`.`nm_sponsor` AS `nm_sponsor`,`imigran`.`id` AS `id_imigran`,`ijin_tinggal`.`tipe` AS `tipe` from ((`ijin_tinggal` join `imigran` on((`ijin_tinggal`.`id_imigran` = `imigran`.`id`))) join `sponsor` on((`imigran`.`id_sponsor` = `sponsor`.`id`))) where (`ijin_tinggal`.`tipe` = 'kitap');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `kitas_view`
+--
+DROP TABLE IF EXISTS `kitas_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `kitas_view` AS select `ijin_tinggal`.`no_reg` AS `no_reg`,`imigran`.`no_paspor` AS `no_paspor`,`imigran`.`nm_imigran` AS `imigran`,`sponsor`.`nm_sponsor` AS `nm_sponsor`,`ijin_tinggal`.`masa_berlaku` AS `masa_berlaku`,`imigran`.`id` AS `id_imigran`,`ijin_tinggal`.`tipe` AS `tipe` from ((`ijin_tinggal` join `imigran` on((`ijin_tinggal`.`id_imigran` = `imigran`.`id`))) join `sponsor` on((`imigran`.`id_sponsor` = `sponsor`.`id`))) where (`ijin_tinggal`.`tipe` = 'kitas');
+
 --
 -- Indexes for dumped tables
 --
@@ -401,10 +450,16 @@ ALTER TABLE `admin`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ijin_tinggal`
+--
+ALTER TABLE `ijin_tinggal`
+ ADD KEY `id_imigran` (`id_imigran`);
+
+--
 -- Indexes for table `imigran`
 --
 ALTER TABLE `imigran`
- ADD PRIMARY KEY (`id`), ADD KEY `id_negara` (`id_negara`,`id_sponsor`), ADD KEY `id_sponsor` (`id_sponsor`);
+ ADD PRIMARY KEY (`id`), ADD KEY `id_negara` (`id_negara`,`id_sponsor`), ADD KEY `id_sponsor` (`id_sponsor`), ADD KEY `no_paspor` (`no_paspor`);
 
 --
 -- Indexes for table `negara`
@@ -445,6 +500,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `ijin_tinggal`
+--
+ALTER TABLE `ijin_tinggal`
+ADD CONSTRAINT `ijin_tinggal_ibfk_1` FOREIGN KEY (`id_imigran`) REFERENCES `imigran` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `imigran`

@@ -4,7 +4,7 @@ class Kitas_model extends CI_Model {
 	
 	function grid()
 	{
-		$query = $this->db->get('kitas_view');
+		$query = $this->db->get_where('kitas_view');
 		return $query->result();
 	}
 	
@@ -14,10 +14,10 @@ class Kitas_model extends CI_Model {
 		return $query->row();
 	}
 	
-	function get_imigran($no_paspor)
+	function get_imigran($id)
 	{
-		$query = $this->db->get_where('imigran', array('no_paspor'=>$no_paspor));
-		return $query->result();
+		$query = $this->db->get_where('imigran', array('id'=>$id));
+		return $query->row_array();
 	}
 	
 	function opt_imigran()
@@ -55,35 +55,11 @@ class Kitas_model extends CI_Model {
 		}
 		return $data;
 	}
-		
-	function tampil_dosen_semua($nama)
-	{
-		$q = $this->db->query("select * from ci_login where nama_depan like '%$nama%'");
-		return $q;
-	}
-	function tampil_dosen_limit($nama)
-	{
-		$q = $this->db->query("select * from ci_login where nama_depan like '%$nama%' LIMIT 8");
-		return $q;
-	}
 	
 	function save_kitas($data)
 	{
-		$this->db->insert('kitas', $data);
+		$this->db->insert('ijin_tinggal', $data);
 		$this->session->set_flashdata('alert', '<div class="alert alert-info"><i class="elusive icon-ok-sign"></i> Data telah ditambah</div>');
-	}
-	
-	function update_kitas($data)
-	{
-		$this->db->update('kitas', $data, array('no_reg'=>$data['no_reg']));
-		$this->session->set_flashdata('alert', '<div class="alert alert-info"><i class="elusive icon-ok-sign"></i> Data telah diubah</div>');
-	}
-	
-	function delete_kitas($id)
-	{		
-		$this->db->where('id', $id);
-		$this->db->delete('kitas');
-		$this->session->set_flashdata('alert', '<div class="alert alert-warning"><i class="elusive icon-ok-sign"></i> Data telah dihapus</div>');
 	}
     	
 }   

@@ -1,7 +1,7 @@
 <div class="col-sm-12">
 <div class="row">
 	<div class="col-sm-2 col-xs-6">
-		<a class="data-block widget-block" href="<?php echo base_url('registrasi');?>">
+		<a class="data-block widget-block" href="<?php echo base_url('imigran/post');?>">
 			<span class="widget-icon elusive icon-file-new-alt"></span>
 			<strong>Registrasi</strong>
 		</a>
@@ -21,15 +21,15 @@
 		</a>
 	</div>
 	<div class="col-sm-2 col-xs-6">
-		<a class="data-block widget-block" href="<?php echo base_url('kitan');?>">
-			<span class="badge"><?php echo 'tet'; ?></span>
+		<a class="data-block widget-block" href="<?php echo base_url('kitas');?>">
+			<span class="badge"><?php echo $this->db->count_all_results('kitas_view'); ?></span>
 			<span class="widget-icon elusive icon-address-book-alt"></span>
 			<strong>KITAS</strong>
 		</a>
 	</div>
 	<div class="col-sm-2 col-xs-6">
 		<a class="data-block widget-block" href="<?php echo base_url('kitap');?>">
-			<span class="badge"><?php echo 'tet'; ?></span>
+			<span class="badge"><?php echo $this->db->count_all_results('kitap_view'); ?></span>
 			<span class="widget-icon elusive icon-address-book-alt"></span>
 			<strong>KITAP</strong>
 		</a>

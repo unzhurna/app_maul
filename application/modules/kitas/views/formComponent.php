@@ -20,18 +20,18 @@
 			'placeholder': '-- Pilih --',
 		});
 		
-		$('#no_paspor').keyup(function(){
-			var data = $.post("<?php echo base_url(); ?>kitas/fill_form/", {nopas: ""+no_paspor+""});
-			$("#no_paspor").autofill(data);
-		});
+		$("#form_x #no_paspor").bind("change", function() {
+  			$.ajax({
+  				type:'post',
+  				datatype:'json',
+				url:"<?php echo base_url(); ?>kitas/fill_form/"+ $("#no_paspor").val(),
+  				success:function(data){
+  					jsondata=$.parseJSON(data);
+  					$("#form_x").autofill(jsondata);
+  				}
+  			});
+		}); 
 		
-		$("#form_x #test").bind("click", function() {
-		    $("#form_x").autofill(data, {
-		        findbyname: false
-		    });
-		});
-		
-	
 	});
 	
 </script>

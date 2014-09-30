@@ -4,7 +4,7 @@
 			<h2><span class="elusive icon-user"></span> Data Imigran</h2>
 		</header>
 		<section>
-			<?php echo form_open('kitas/post', 'class="form-horizontal" id="form_x"'); ?>
+			<?php echo form_open('kitap/post', 'class="form-horizontal" id="form_x"'); ?>
 				<div class="form-group">
 					<label class="col-lg-3 control-label">No. Registrasi</label>
 					<div class="col-lg-6">
@@ -73,12 +73,6 @@
 					<label class="col-lg-3 control-label">Alamat<span class="text-danger">*</span></label>
 					<div class="col-lg-6">
 						<?php echo form_textarea(array('name'=>'alamat', 'rows'=>'2', 'class'=>'form-control')); ?>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-3 control-label">Masa Berlaku<span class="text-danger">*</span></label>
-					<div class="col-lg-6">
-						<?php echo form_input(array('name'=>'expired', 'class'=>'form-control datepicker2')); ?>
 					</div>
 				</div>
 				<div class="form-group">
